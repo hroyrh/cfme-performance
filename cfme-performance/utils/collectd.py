@@ -14,7 +14,7 @@ def setup_collectd(perf_data):
     command_str = "until ping -c1 " + str(perf_data['appliance']['ip_address']) + " &>/dev/null; do sleep 5; done"
     print subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE).stdout.read()
 
-    id_pub = subprocess.Popen("ssh-keygen -y -f /var/lib/jenkins/workspace/perf-test*/id_rsa_t", shell=True, stdout=subprocess.PIPE).stdout.read()
+    id_pub = subprocess.Popen("ssh-keygen -y -f ~/.ssh/id_rsa_t", shell=True, stdout=subprocess.PIPE).stdout.read()
     commandstring = "echo \"" + str(id_pub) + "\" > ~/.ssh/authorized_keys"
     ssh_client = SSHClient()
     ssh_client.run_command(commandstring)
