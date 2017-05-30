@@ -31,7 +31,7 @@ def setup_collectd(perf_data):
     stream = open("cfme-performance/conf/data.yml", "r")
     datayml = yaml.load(stream)
 
-    cstr = "\n\tIdentityFile /var/lib/jenkins/workspace/perf-test-downstream-57z-test-idle/id_rsa_t\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null"
+    cstr = "\n\tIdentityFile ~/.ssh/id_rsa_t\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null"
     ssh_config = "Host " + perf_data['appliance']['appliance_name'] + "\n\tHostname " + perf_data['appliance']['ip_address'] + cstr
     ssh_config = ssh_config + "\nHost "+datayml['grafana']['host']+"\n\tHostname "+datayml['grafana']['ip'] + cstr
     #print ssh_config
