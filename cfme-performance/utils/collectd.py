@@ -3,6 +3,7 @@ from utils.conf import cfme_performance
 from utils.log import logger
 from utils.ssh import SSHTail
 from utils.version import get_version
+from utils.version import get_current_version_string
 from textwrap import dedent
 import time
 import yaml
@@ -19,7 +20,14 @@ def setup_collectd(perf_data):
     ssh_client = SSHClient()
     ssh_client.run_command(commandstring)
 
-    perf_data['tools']['grafana']['ip_address'] = 'perf-carbon.perf.lab.eng.rdu.redhat.com'
+    version_string = get_current_version_string()
+    appliance_name_update = perf_data['appliance']['appliance_name'].replace("LATEST",version_string)
+    perf_data['appliance']['appliance_name'] = appliance_name_update
+
+    stream = open("cfme-performance/conf/data.yml", "r")
+    datayml = yaml.load(stream)
+
+    perf_data['tools']['grafana']['ip_address'] = datayml['grafana']['ip']
     perf_data['tools']['grafana']['enabled'] = 'true'
     hosts_local = "[monitorhost]\n" + str(perf_data['tools']['grafana']['ip_address']) + "\n\n"
     hosts_local = hosts_local + "[cfme-vmdb]\n" + perf_data['appliance']['appliance_name'] + "\n\n"
@@ -27,9 +35,6 @@ def setup_collectd(perf_data):
     hostfile = open("ansible/hosts.local","w")
     hostfile.write(hosts_local)
     hostfile.close()
-
-    stream = open("cfme-performance/conf/data.yml", "r")
-    datayml = yaml.load(stream)
 
     cstr = "\n\tIdentityFile ~/.ssh/id_rsa_t\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null"
     ssh_config = "Host " + perf_data['appliance']['appliance_name'] + "\n\tHostname " + perf_data['appliance']['ip_address'] + cstr
