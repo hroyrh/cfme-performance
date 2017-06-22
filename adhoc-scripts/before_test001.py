@@ -10,6 +10,5 @@ for scenario in list(confyml['tests']['workloads']['test_refresh_vms']):
     if not 'rhos7' in scenario:
         del confyml['tests']['workloads']['test_refresh_vms'][scenario]
 
-confile = open("cfme-performance/conf/cfme_performance.yml", "w")
-confile.write(confyml)
-confile.close()
+with open("cfme-performance/conf/cfme_performance.yml", "w") as outfile:
+    yaml.dump(confyml, outfile, default_flow_style=False)
