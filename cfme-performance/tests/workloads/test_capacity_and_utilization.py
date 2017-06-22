@@ -72,4 +72,8 @@ def test_workload_capacity_and_utilization(request, scenario):
             time.sleep(300)
 
     quantifiers['Elapsed_Time'] = round(elapsed_time, 2)
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')

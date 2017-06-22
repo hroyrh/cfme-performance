@@ -103,4 +103,8 @@ def test_workload_smartstate_analysis(request, scenario):
 
     quantifiers['Elapsed_Time'] = round(time.time() - starttime, 2)
     quantifiers['Queued_VM_Scans'] = total_scanned_VMs
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')

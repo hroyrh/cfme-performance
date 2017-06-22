@@ -93,4 +93,8 @@ def test_refresh_providers(request, scenario):
 
     quantifiers['Elapsed_Time'] = round(time.time() - starttime, 2)
     quantifiers['Queued_Provider_Refreshes'] = total_refreshed_providers
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')

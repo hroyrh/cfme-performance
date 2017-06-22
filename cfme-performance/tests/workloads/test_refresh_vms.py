@@ -108,4 +108,8 @@ def test_refresh_vms(request, scenario):
 
     quantifiers['Elapsed_Time'] = round(time.time() - starttime, 2)
     quantifiers['Queued_VM_Refreshes'] = total_refreshed_vms
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')

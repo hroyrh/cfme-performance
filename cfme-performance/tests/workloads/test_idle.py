@@ -9,6 +9,7 @@ from utils.smem_memory_monitor import add_workload_quantifiers
 from utils.smem_memory_monitor import SmemMemoryMonitor
 from utils.ssh import SSHClient
 from utils.workloads import get_idle_scenarios
+from utils.get_logs import collect_logs
 import time
 import pytest
 
@@ -61,4 +62,8 @@ def test_idle(request, scenario):
     time.sleep(s_time)
 
     quantifiers['Elapsed_Time'] = s_time
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')

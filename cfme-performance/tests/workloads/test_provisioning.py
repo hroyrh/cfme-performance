@@ -142,4 +142,8 @@ def test_provisioning(request, scenario):
     quantifiers['Deleted_VMs'] = total_deleted_vms
     logger.info('Provisioned {} VMs and deleted {} VMs during the scenario.'
         .format(total_provisioned_vms, total_deleted_vms))
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')

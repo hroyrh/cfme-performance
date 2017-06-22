@@ -127,4 +127,8 @@ def test_workload_capacity_and_utilization_rep(request, scenario):
         set_server_roles_workload_cap_and_util(ssh_client)
 
     quantifiers['Elapsed_Time'] = round(elapsed_time, 2)
+
+    #collect evm logs from appliance
+    if cfme_performance['collect_logs']:
+        collect_logs()
     logger.info('Test Ending...')
