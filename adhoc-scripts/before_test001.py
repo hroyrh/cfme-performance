@@ -6,7 +6,7 @@ import subprocess
 stream = open("cfme-performance/conf/cfme_performance.yml", "r")
 confyml = yaml.load(stream)
 
-for scenario in confyml['tests']['workloads']['test_refresh_vms']:
+for scenario in list(confyml['tests']['workloads']['test_refresh_vms']):
     if not 'rhos7' in scenario:
         del confyml['tests']['workloads']['test_refresh_vms'][scenario]
 
