@@ -13,7 +13,6 @@ from utils.get_logs import collect_logs
 import time
 import pytest
 
-
 def pytest_generate_tests(metafunc):
     argvalues = [[scenario] for scenario in get_idle_scenarios()]
     idlist = [scenario['name'] for scenario in get_idle_scenarios()]

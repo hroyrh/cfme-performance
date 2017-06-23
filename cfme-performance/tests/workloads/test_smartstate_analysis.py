@@ -18,6 +18,7 @@ from utils.ssh import SSHClient
 from utils.workloads import get_smartstate_analysis_scenarios
 import time
 import pytest
+from utils.get_logs import collect_logs
 
 
 @pytest.mark.usefixtures('generate_version_files')

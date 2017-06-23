@@ -18,6 +18,7 @@ from utils.workloads import get_refresh_vms_scenarios
 from itertools import cycle
 import time
 import pytest
+from utils.get_logs import collect_logs
 
 FULL_REFRESH_THRESHOLD_DEFAULT = 100
 

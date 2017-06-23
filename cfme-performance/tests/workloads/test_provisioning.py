@@ -20,6 +20,7 @@ from utils.workloads import get_provisioning_scenarios
 from itertools import cycle
 import time
 import pytest
+from utils.get_logs import collect_logs
 
 
 @pytest.mark.usefixtures('generate_version_files')
