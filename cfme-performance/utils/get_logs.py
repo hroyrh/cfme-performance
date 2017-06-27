@@ -5,13 +5,13 @@ import subprocess
 
 def collect_logs():
     logger.info('Starting evm log collection')
-    subprocess.check_call("mkdir", "-p", "cfme-performance/log/vmdb-logs/" ,shell=True)
+    subprocess.check_call(["mkdir", "-p", "cfme-performance/log/vmdb-logs/"])
     logstr = "root@" + cfme_performance['appliance']['ip_address'] + ":/var/www/miq/vmdb/log/*"
-    subprocess.check_call("scp", logstr, "cfme-performance/log/vmdb-logs/" ,shell=True)
+    subprocess.check_call(["scp", logstr, "cfme-performance/log/vmdb-logs/"])
 
-    subprocess.check_call("mkdir", "-p", "cfme-performance/log/system-logs/" ,shell=True)
+    subprocess.check_call(["mkdir", "-p", "cfme-performance/log/system-logs/"])
     logstr = "root@" + cfme_performance['appliance']['ip_address'] + ":/var/log/*"
-    subprocess.check_call("scp", logstr, "cfme-performance/log/system-logs/" ,shell=True)
+    subprocess.check_call(["scp", logstr, "cfme-performance/log/system-logs/"])
 
     logger.info('evm log collection Finished')
     #command_str = "mkdir -p cfme-performance/log/vmdb-logs/ ; scp root@" + cfme_performance['appliance']['ip_address'] + ":/var/www/miq/vmdb/log/* cfme-performance/log/vmdb-logs/"
