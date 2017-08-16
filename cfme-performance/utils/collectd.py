@@ -20,9 +20,8 @@ def setup_collectd(perf_data):
     ssh_client = SSHClient()
     ssh_client.run_command(commandstring)
 
-    version_string = get_current_version_string()
-    version_string_new = version_string.replace(".", '')
-    appliance_name_update = perf_data['appliance']['appliance_name'].replace("LATEST",version_string_new)
+    version_string = get_current_version_string().replace(".",'')
+    appliance_name_update = perf_data['appliance']['appliance_name'].replace("LATEST",version_string)
     perf_data['appliance']['appliance_name'] = appliance_name_update
 
     stream = open("cfme-performance/conf/data.yml", "r")
@@ -49,10 +48,9 @@ def setup_collectd(perf_data):
     allstream = yaml.load(stream)
     allstream['appliances'][perf_data['appliance']['appliance_name']] = {}
     allstream['appliances'][perf_data['appliance']['appliance_name']] = allstream['appliances']['CF-B2B-R0000-test']
-    perf_data['tools']['grafana']['port'] = allstream['grafana_port']
     del allstream['appliances']['CF-B2B-R0000-test']
     with open('ansible/group_vars/all.local.yml', 'w') as outfile:
         yaml.dump(allstream, outfile, default_flow_style=False)
 
-    subprocess.Popen("sleep 30", shell=True)
-    print subprocess.Popen("ansible-playbook -i hosts.local configure/postdeploy.yml", shell=True, stdout=subprocess.PIPE, cwd="ansible").stdout.read()
+    subprocess.Popen("sleep 10", shell=True)
+    print subprocess.Popen("ansible-playbook -i hosts.local configure/postdeploy.yml -vvv", shell=True, stdout=subprocess.PIPE, cwd="ansible").stdout.read()

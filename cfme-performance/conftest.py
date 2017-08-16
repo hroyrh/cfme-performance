@@ -12,7 +12,7 @@ from utils.sprout import SproutClient
 from wait_for import wait_for as wait_for_mod
 import fixtures
 from pkgutil import iter_modules
-
+import subprocess
 
 #: A dict of tests, and their state at various test phases
 test_tracking = collections.defaultdict(dict)
@@ -56,8 +56,6 @@ def pytest_addoption(parser):
                      default=0, help="Override CPU core count. 0 means no override.")
     group._addoption('--use-collectd', dest='use_collectd', action='store_true', default=False,
                     help="Run collectd on appliance and upload data on monitor-host.")
-    group._addoption('--collect-logs', dest='collect_logs', action='store_true', default=False,
-                    help="Collect logs from appliance.")
 
 
 def pytest_configure(config):
@@ -119,8 +117,6 @@ def pytest_configure(config):
             perf_data['replication_master']['appliance_name']))
     if config.option.use_collectd and config.option.use_sprout:
         collectd.setup_collectd(perf_data)
-    if config.option.collect_logs and config.option.use_sprout:
-        perf_data['collect_logs'] = 'true'
 
 
 def pytest_collection_modifyitems(session, config, items):
@@ -180,6 +176,12 @@ def pytest_sessionfinish(session, exitstatus):
     summary = ', '.join(results)
     logger().info(log.format_marker('Finished test run', mark='='))
     logger().info(log.format_marker(str(summary), mark='='))
+
+    # Copy log files before finishing the test
+    std_out = subprocess.Popen("mkdir -p cfme-performance/log/ap_logs", shell=True, stdout=subprocess.PIPE).stdout.read()
+    command_str = "scp -r root@" + perf_data['appliance']['ip_address'] + ":/var/www/miq/vmdb/log cfme-performance/log/ap_logs/"
+    std_out = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE).stdout.read()
+
     for session in ssh._client_session:
         try:
             session.close()
