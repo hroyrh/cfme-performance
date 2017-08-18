@@ -63,6 +63,6 @@ def test_idle(request, scenario):
     quantifiers['Elapsed_Time'] = s_time
 
     #collect evm logs from appliance
-    if cfme_performance['collect_logs']:
-        collect_logs()
-    logger.info('Test Ending...')
+   # if cfme_performance['collect_logs']:
+   #     collect_logs()
+   # logger.info('Test Ending...')
