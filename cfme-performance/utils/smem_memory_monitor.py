@@ -383,6 +383,25 @@ def create_report(scenario_data, appliance_results, process_results, use_slab, g
     logger.info('Creating Memory Monitoring Report.')
     ver = get_current_version_string()
 
+        # Copy log files before finishing the test
+    #######################################################
+    logger().info("Appliance log collection starting.........")
+    p = subprocess.Popen(['mkdir', '-p', 'cfme-performance/log/ap_logs'],
+        bufsize=2048, stdin=subprocess.PIPE)
+    p.stdin.write('e')
+    p.wait()
+    logger().info("Fetching appliance logs.........")
+    p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',perf_data['appliance']['ip_address'],
+        '/var/www/miq/vmdb/log'), 'cfme-performance/log/ap_logs/'],
+        bufsize=2048, stdin=subprocess.PIPE)
+    p.stdin.write('e')
+    p.wait()
+    if p.returncode == 0:
+        logger().info("Successfully fetched logs from appliance")
+
+    ################################################
+
+
     provider_names = 'No Providers'
     if 'providers' in scenario_data['scenario']:
         provider_names = ', '.join(scenario_data['scenario']['providers'])
@@ -519,21 +538,7 @@ def generate_summary_csv(file_name, appliance_results, process_results, provider
 
 def generate_summary_html(directory, version_string, appliance_results, process_results,
         scenario_data, provider_names, grafana_urls):
-    # Copy log files before finishing the test
-#######################################################
-    #p = subprocess.Popen(['mkdir', '-p', 'cfme-performance/log/ap_logs'],
-    #    bufsize=2048, stdin=subprocess.PIPE)
-    #p.stdin.write('e')
-    #p.wait()
-    #p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',perf_data['appliance']['ip_address'],
-    #    '/var/www/miq/vmdb/log'), 'cfme-performance/log/ap_logs/'],
-    #    bufsize=2048, stdin=subprocess.PIPE)
-    #p.stdin.write('e')
-    #p.wait()
-    #if p.returncode == 0:
-    #    logger().info("Successfully fetched logs from appliance")
 
-################################################
     starttime = time.time()
     file_name = str(directory.join('index.html'))
     with open(file_name, 'w') as html_file:
