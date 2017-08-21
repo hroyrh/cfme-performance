@@ -520,18 +520,18 @@ def generate_summary_csv(file_name, appliance_results, process_results, provider
 def generate_summary_html(directory, version_string, appliance_results, process_results,
         scenario_data, provider_names, grafana_urls):
     # Copy log files before finishing the test
-#######################################################    
-    p = subprocess.Popen(['mkdir', '-p', 'cfme-performance/log/ap_logs'],
-        bufsize=2048, stdin=subprocess.PIPE)
-    p.stdin.write('e')
-    p.wait()
-    p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',perf_data['appliance']['ip_address'],
-        '/var/www/miq/vmdb/log'), 'cfme-performance/log/ap_logs/'],
-        bufsize=2048, stdin=subprocess.PIPE)
-    p.stdin.write('e')
-    p.wait()
-    if p.returncode == 0:
-        logger().info("Successfully fetched logs from appliance")
+#######################################################
+    #p = subprocess.Popen(['mkdir', '-p', 'cfme-performance/log/ap_logs'],
+    #    bufsize=2048, stdin=subprocess.PIPE)
+    #p.stdin.write('e')
+    #p.wait()
+    #p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',perf_data['appliance']['ip_address'],
+    #    '/var/www/miq/vmdb/log'), 'cfme-performance/log/ap_logs/'],
+    #    bufsize=2048, stdin=subprocess.PIPE)
+    #p.stdin.write('e')
+    #p.wait()
+    #if p.returncode == 0:
+    #    logger().info("Successfully fetched logs from appliance")
 
 ################################################
     starttime = time.time()
