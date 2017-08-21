@@ -166,19 +166,7 @@ def pytest_runtest_setup(item):
 
 
 def pytest_sessionfinish(session, exitstatus):
-    # Copy log files before finishing the test
-    p = subprocess.Popen(['mkdir', '-p', 'cfme-performance/log/ap_logs'],
-        bufsize=2048, stdin=subprocess.PIPE)
-    p.stdin.write('e')
-    p.wait()
-    p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',perf_data['appliance']['ip_address'],
-        '/var/www/miq/vmdb/log'), 'cfme-performance/log/ap_logs/'],
-        bufsize=2048, stdin=subprocess.PIPE)
-    p.stdin.write('e')
-    p.wait()
-    if p.returncode == 0:
-        logger().info("Successfully fetched logs from appliance")
-    
+        
     c = collections.Counter()
     for test in test_tracking:
         c[_test_status(test)] += 1
