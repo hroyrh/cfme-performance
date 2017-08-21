@@ -385,19 +385,19 @@ def create_report(scenario_data, appliance_results, process_results, use_slab, g
 
         # Copy log files before finishing the test
     #######################################################
-    logger().info("Appliance log collection starting.........")
+    #logger().info('Appliance log collection starting.........')
     p = subprocess.Popen(['mkdir', '-p', 'cfme-performance/log/ap_logs'],
         bufsize=2048, stdin=subprocess.PIPE)
     p.stdin.write('e')
     p.wait()
-    logger().info("Fetching appliance logs.........")
-    p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',perf_data['appliance']['ip_address'],
+    #logger().info("Fetching appliance logs.........")
+    p = subprocess.Popen(['scp', '-r','%s@%s:%s' % ('root',cfme_performance['appliance']['ip_address'],
         '/var/www/miq/vmdb/log'), 'cfme-performance/log/ap_logs/'],
         bufsize=2048, stdin=subprocess.PIPE)
     p.stdin.write('e')
     p.wait()
-    if p.returncode == 0:
-        logger().info("Successfully fetched logs from appliance")
+    #if p.returncode == 0:
+    #    logger().info("Successfully fetched logs from appliance")
 
     ################################################
 
